@@ -2,7 +2,7 @@
 title: Zararlı Yazılım Analizi Temelleri
 language: TR
 published: true
-categories: malware
+category: malware
 ---
 
 <h1 style="text-align:center"> Zararlı Yazılım Analizi Temelleri</h1>
