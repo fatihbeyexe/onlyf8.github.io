@@ -2,7 +2,6 @@
 layout: page
 title: Zararlı Yazılım Postları
 ---
-
 <ul >
     {% for post in site.posts %}
       {% if post.language == 'TR' and 'malware' in post.categories -%}
