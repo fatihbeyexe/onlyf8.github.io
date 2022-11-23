@@ -10,6 +10,5 @@ title: Zararlı Yazılım Postları
             <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
             <p>{{ post.content | strip_html | truncatewords:50 }}</p>
         </li>
-      {% endif %}
     {% endfor %}
 </ul>
