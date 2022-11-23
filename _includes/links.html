@@ -1,7 +1,43 @@
-<a href="{{ "/trzararliyazilim" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Zararlı Yazılım Blog Postları</h2></a>
-<a href="{{ "/trdfir" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Adli Bilişim ve Olay Müdahalesi Blog Postları</h2></a>
-<a href="{{ "/enmalware" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Malware Blog Posts</h2></a>
-<a href="{{ "/endfir" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">DFIR Blog Posts</h2></a>
+<style>
+    .mainmenubtn {
+  color: #666;
+  border: none;
+  cursor: pointer;
+  padding:20px;
+  margin-top:20px;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-child {
+  display: none;
+  min-width: 200px;
+}
+.dropdown-child a {
+  color: #666;
+  padding: 20px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown:hover .dropdown-child {
+  display: block;
+}
+</style>
+<div class="dropdown">
+    <button class="mainmenubtn">Türkçe </button>
+    <div class="dropdown-child">
+      <a href="{{ "/trzararliyazilim" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Zararlı Yazılım Blog Postları</h2></a>
+      <a href="{{ "/trdfir" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Adli Bilişim ve Olay Müdahalesi Blog Postları</h2></a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="mainmenubtn">English </button>
+    <div class="dropdown-child">
+      <a href="{{ "/enmalware" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Malware Blog Posts</h2></a>
+      <a href="{{ "/endfir" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">DFIR Blog Posts</h2></a>
+    </div>
+  </div>
 <a href="{{ "/archive" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Arşiv/Archive</h2></a>
 <a href="{{ "/cv" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">CV</h2></a>
 <a href="{{ "/atom.xml" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">RSS Feed</h2></a>
