@@ -4,7 +4,7 @@ title: Zararlı Yazılım Postları
 ---
 <ul >
     {% for post in site.posts %}
-      {% if post.language == 'TR' and 'malware' in post.categories -%}
+      {% if 'malware' in post.categories -%}
         <li>
             <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.title }}</a></h2>
             <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
