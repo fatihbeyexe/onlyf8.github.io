@@ -9,7 +9,7 @@ title: DFIR Blog Posts
 <ul >
     {% for post in site.posts %}
       {% if post.language == 'EN' -%}
-        {% if post.categories.lower() == 'dfir' -%}
+        {% if post.categories lower == 'dfir' -%}
           <li>
               <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.categories }}</a></h2>
               <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
