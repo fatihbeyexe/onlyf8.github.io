@@ -8,14 +8,12 @@ title: DFIR Blog Posts
 
 <ul >
     {% for post in site.posts %}
-      {% if post.language == 'EN' -%}
-        {% if post.category == 'DFIR' -%}
-          <li>
+      {% if post.language == 'EN' and if post.category == 'DFIR' -%}
+          <li> 
               <h2><a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">{{ post.categories }}</a></h2>
               <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date_to_string }}</time>
               <p>{{ post.content | strip_html | truncatewords:50 }}</p>
           </li>
-        {% endif %}
       {% endif %}
     {% endfor %}
 </ul>
