@@ -1,21 +1,22 @@
 <style>
     .mainmenubtn {
   color: #666;
-  border: none;
   cursor: pointer;
-  padding:20px;
-  margin-top:20px;
 }
 .dropdown {
   display: inline-block;
+  position: relative;
 }
 .dropdown-child {
   display: none;
+  position: absolute;
+  background-color: rgb(26, 5, 5);
   min-width: 200px;
 }
 .dropdown-child a {
   color: #666;
   padding: 20px;
+  border: 1px outset #e2e2e2;
   text-decoration: none;
   display: block;
 }
@@ -24,14 +25,14 @@
 }
 </style>
 <div class="dropdown">
-    <button class="mainmenubtn">Türkçe </button>
+    <a href=""><h2 class="header-link">Türkçe </h2></a>
     <div class="dropdown-child">
       <a href="{{ "/trzararliyazilim" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Zararlı Yazılım Blog Postları</h2></a>
       <a href="{{ "/trdfir" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Adli Bilişim ve Olay Müdahalesi Blog Postları</h2></a>
     </div>
   </div>
   <div class="dropdown">
-    <button class="mainmenubtn">English </button>
+    <a href=""><h2 class="header-link">English </h2></a>
     <div class="dropdown-child">
       <a href="{{ "/enmalware" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">Malware Blog Posts</h2></a>
       <a href="{{ "/endfir" | prepend: site.baseurl | replace: '//', '/' }}"><h2 class="header-link">DFIR Blog Posts</h2></a>
