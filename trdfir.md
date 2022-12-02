@@ -3,8 +3,6 @@ layout: page
 title: DFIR Postları
 ---
 
-<img title="Under Construction" src="/assets/under-construction.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
-
 <ul >
     {% for post in site.posts %}
       {% if post.language == 'TR' and post.category == 'DFIR' -%}
