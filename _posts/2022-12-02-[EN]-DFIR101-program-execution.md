@@ -5,10 +5,6 @@ published: true
 category: DFIR
 ---
 
-<h1 style="text-align:center"> DFIR 101 Program Execution Artifacts </h1>
-
----
-
 # Introduction
 
 One of the points where both guiding and very clear findings can be obtained by analysts during incident response is the "Program Execution Artifacts" provided by the Windows operating system. These and similar structures created by Windows for different purposes help analysts in the analysis stages. For example, although the Windows Prefetch structure is intended for applications to run faster, it can provide evidence of whether an application is running during incident response. In this article series, Windows structures that serve as evidence of incident response will be mentioned. 

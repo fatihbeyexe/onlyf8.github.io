@@ -5,10 +5,6 @@ published: true
 category: DFIR
 ---
 
-<h1 style="text-align:center"> DFIR 101 Çalışan Uygulama Kalıntıları</h1>
-
----
-
 # Giriş
 
 
