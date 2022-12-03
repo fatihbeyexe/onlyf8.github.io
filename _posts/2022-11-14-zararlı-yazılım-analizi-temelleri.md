@@ -233,3 +233,7 @@ Ardından gördüğümüz **“cmd.exe”** stringi aklımıza geliyor ve proses
 Bulduğumuz bulgular ışığında şu sonucu çıkarabiliyoruz, bu zararlı yazılım; **SAM** kayıt defterini okuyup içeriğini Base64’e çevirdiğini ve ardından **DNS Tünelleme** tekniği ile birlikte bu Base64 değerini uzak sunucuya gönderdiğini tespit etmiş olduk.
 
 Bu blog yazısının hazırlanmasında büyük emeği geçen Nurcan İLHAN’a teşekkürler.
+
+---
+
+Eleştiri/düzeltme/öneri için lütfen iletişim adreslerimden bana ulaşınız. Yorumlarınız benim için değerli :)
