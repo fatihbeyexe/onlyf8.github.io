@@ -9,13 +9,13 @@ category: malware
 
 PE(Portable Executable) yani taşınılabilir yürütülebilir dosyalar Windows sistemler arasında uyumluluk sorunu yaşamadan taşınıp çalıştırılabilen dosyalardır. Taşınabilir olması için tüm cihazlar için ortak bir dil/mimari tanımlanması gerekmektedir, bir cihazda "A" anlamına gelen veri diğer cihazda da "A" anlamına gelmelidir. Burada da ortaya bir mimari çıkıyor. Örneğin bir taşınabilir dosyanın 0x24 adresinde ImageBase verisinin taşındığı bütün cihazlar tarafından bilinmektedir ve ona göre yorumlanıp dosya çalıştırılmaktadır. Bu yazıda genel hatlarıyla bir PE yapısında neler bulunduğuna ve bunların ne anlamlara geldiğine bakılacaktır.
 
-"Portable Executable (PE) biçimi, Windows işletim sistemlerinin 32 bit ve 64 bit sürümlerinde kullanılan yürütülebilir dosyalar, DLL'ler vb. için bir dosya biçimidir. PE biçimi, Windows işletim sistemi yükleyicisinin kapsüllenmiş yürütülebilir kodu yönetmesi için gerekli bilgileri içeren bir veri yapısıdır. Buna; bağlantı için dinamik kitaplık referansları, API dışa aktarma(export table) ve içe aktarma (import table) tabloları, kaynak yönetimi verileri(resources) ve iş parçacığı yerel depolama (TLS) verileri dahildir. NT işletim sistemlerinde PE formatı EXE, DLL, SYS (cihaz sürücüsü), MUI ve diğer dosya türleri için kullanılır."[1]
+"Portable Executable (PE) biçimi, Windows işletim sistemlerinin 32 bit ve 64 bit sürümlerinde kullanılan yürütülebilir dosyalar, DLL'ler vb. için bir dosya biçimidir. PE biçimi, Windows işletim sistemi yükleyicisinin kapsüllenmiş yürütülebilir kodu yönetmesi için gerekli bilgileri içeren bir veri yapısıdır. Buna; bağlantı için dinamik kitaplık referansları, API dışa aktarma(export table) ve içe aktarma (import table) tabloları, kaynak yönetimi verileri(resources) ve iş parçacığı yerel depolama (TLS) verileri dahildir. NT işletim sistemlerinde PE formatı EXE, DLL, SYS (cihaz sürücüsü), MUI ve diğer dosya türleri için kullanılır."**[1]**
 
 ---
 
 <img title="PE 101" src="../assets/pe101-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
-Yukarıdaki görselde bir PE yapısının detaylı yapısı Ange Albertini[2] tarafından görselleştirilmiştir. Günümüzde çeşitli araçlar bu yapıyı analiz edip uygun çıktıyı analistlere sunmaktadır. PEBear, CFF Explorer, PEStudio vb. bu araçlara örnek olarak verilebilir. Peki buradaki bilgiler bizim için neden önemlidir ? İlerleyen kısımlarda bahsedeceğimiz "Raw Size ve Virtual Size arasındaki fark yüksek olursa ne anlama gelmektedir?" gibi konularda bize yol göstermektedir ve belirli kanıtlar sunmaktadır. 
+Yukarıdaki görselde bir PE yapısının detaylı yapısı Ange Albertini **[2]** tarafından görselleştirilmiştir. Günümüzde çeşitli araçlar bu yapıyı analiz edip uygun çıktıyı analistlere sunmaktadır. PEBear, CFF Explorer, PEStudio vb. bu araçlara örnek olarak verilebilir. Peki buradaki bilgiler bizim için neden önemlidir ? İlerleyen kısımlarda bahsedeceğimiz "Raw Size ve Virtual Size arasındaki fark yüksek olursa ne anlama gelmektedir?" gibi konularda bize yol göstermektedir ve belirli kanıtlar sunmaktadır. 
 
 # Virtual Adress (VA) vs Relative Virtual Adress (RVA)
 
@@ -48,8 +48,9 @@ typedef struct _IMAGE_DOS_HEADER {      // DOS .EXE header
     WORD   e_oeminfo;                   // OEM information; e_oemid specific
     WORD   e_res2[10];                  // Reserved words
     LONG   e_lfanew;                    // File address of new exe header
-  } IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;   [4]
+  } IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;   
 ``` 
+**[3]**
 
 Burada bizim için önemli 2 adet değer bulunmaktadır; 
 
@@ -72,7 +73,9 @@ Bir PE dosyasının başlangıcında veya imzasının hemen ardından gelen kıs
 |8 | 4 | PointerToSymbolTable| COFF sembol tablosunun dosya ofseti veya COFF sembol tablosu mevcut değilse sıfır. COFF hata ayıklama bilgisi kullanımdan kaldırıldığı için bu değer bir görüntü için sıfır olmalıdır. |
 |12 | 4 | NumberOfSymbols | Sembol tablosundaki entry sayısı. Bu veriler, sembol tablosunu hemen takip eden string tablosunu bulmak için kullanılabilir. COFF hata ayıklama bilgisi kullanımdan kaldırıldığı için bu değer bir görüntü için sıfır olmalıdır. | 
 |16 | 2 | SizeOfOptionalHeader | OptionalHeader kısmının boyutunu belirtir. | 
-|18 | 2 | Characteristics | Dosyanın özelliklerini belirten değerlerini içeren kısım | [3]
+|18 | 2 | Characteristics | Dosyanın özelliklerini belirten değerlerini içeren kısım | 
+
+**[4]**
 
 File Characteristics kısmındaki değerler ise şu şekildedir:
 
@@ -121,7 +124,7 @@ typedef struct _IMAGE_OPTIONAL_HEADER {
 
 Genel olarak önemli veriler şunlardır:
 
-**Magic**: İmaj dosyasının türünü belirtir. 0x010B ise 32-bit 0x020B ise 64-bit imaj dosyası olduğunu belirtir.
+**Magic**: İmaj dosyasının türünü belirtir. 0x010B ise 32-bit, 0x020B ise 64-bit imaj dosyası olduğunu belirtir.
 
 **SizeOfCode:** Çalıştırılabilir kodların toplam boyutunu belirtir.
 
@@ -135,7 +138,9 @@ Genel olarak önemli veriler şunlardır:
 
 <img title="Entry Point" src="../assets/entry-point-dbg.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
-**ImageBase**: PE formatının yükleneceği adresin değerini tutar. Genel olarak 32-bit mimari için çalıştırılabilir dosyalar için bu kısımda **0x00400000** değeri bulunur. Derleyicinizin Linker ayarlarından bu kısım değiştirebilirsiniz.
+**ImageBase**: PE formatının yükleneceği adresin değerini tutar. Genel olarak 32-bit mimari için çalıştırılabilir dosyalar için bu kısımda **0x00400000** değeri bulunur. Derleyicinizin Linker ayarlarından bu kısım değiştirebilirsiniz. 
+
+**[5]**
 
 ---
 # Section Table
@@ -156,6 +161,8 @@ Bu tablodaki bulunan section sayısı **File Header** kısmında belirtilen **Nu
 |32 | 2 | NumberOfRelocations| Section için relocation entry'lerinin sayısı. Çalıştırılabilir dosyalar için bu değer sıfırdır.|
 |34 | 2 | NumberOfLinenumbers| Section için satır numarası entry'lerinin sayısı. COFF hata ayıklama bilgisi(debug information) kullanımdan kaldırıldığı için bu değer bir dosya için sıfır olmalıdır.|
 |36 | 4 | Characteristics | Bölümün izinlerinin bulunduğu kısımdır. Bu değerler için [Bkz. Microsoft Dokümantasyon](https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#section-flags)|
+
+**[6]**
 
 <img title="Sections" src="../assets/sections.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
@@ -179,15 +186,139 @@ Harici olarak section tanımlanabilir fakat özel amaçlı ön tanımlı section
 
 ---
 
+# Örnek
+
+Örnek bir dosya içerisinde import edilen DLL ve bu DLL'ler içinden import edilen fonksiyonların nasıl bulunacağına bakalım.
+
+Öncelikle Optional Header'ın son değeri olan Data Directories içerisinden **Import Directory RVA** değerine bakıyoruz. Bu değer bize dosyanın hafızaya yüklendiğinde Import tablosunun adresini vermekte. Örneğin program hafızanın 0x0040000 adresine yüklendi, Import Directory'miz 0x004< ImportDirectoryRVA > adresinde bulunuyor. Fakat dosya içerisinde ( file offset ) bu tabloyu nasıl bulabiliriz ? 
+
+<img title="Data Directories" src="../assets/data-directories.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+Buradaki değerin hangi section içerisinde olduğunu bulmamız gerekiyor. Bunun için sectionların Virtual Offset değerlerine bakıyoruz.
+
+<img title="Section Header" src="../assets/section-header.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+
++ **Yeşil** kutu içindeki değer **Name** 
++ **Kırmızı** kutu içindeki değer **Virtual Offset**
++ **Sarı** kutu içindeki değer **Raw Offset** içermektedir.
+
+
+Burada karşımızda **Section Table** yapısı çıkmakta. Burada 12. offset değeri bu section'ın Virtual Adress'ini ifade etmekte. Yani buradaki sectionlar şu şekilde olmaktadır:
+
+|İsim|Raw Offset|Virtual Offset|
+|----|----------|--------------|
+|.text|0x400|0x1000|
+|.rdata|0x1200|0x2000|
+|.data|0x1E00|0x3000|
+|.rsrc|0x2000|0x4000|
+|.reloc|0x2200|0x5000|
+
+Bizim bakmamız gereken şey ise Import Directory değerimiz hangi **Virtual Offset** aralığında? Değerimiz => 0x263C olduğu için buradan bizim Import tablomuzun **.rdata** section'ında olduğunu anlıyoruz. Burada kullanacağımız formül ise şu:
+
+**File Offset= Raw Offset + RVA - Virtual Offset** örneğimize uygularsak; 
+
+File Offset= 0x1200 + 0x263C - 0x2000 => 0x183C , adrese baktığımızda ise bizi **IMAGE_IMPORT_DESCRIPTOR** struct yapısı karşılamakta. 
+
+<img title="Import Table" src="../assets/import-table.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+```
+public struct IMAGE_IMPORT_DESCRIPTOR
+  {
+      [FieldOffset(0)]
+      public uint Characteristics;
+
+      [FieldOffset(0)]
+      public uint OriginalFirstThunk;
+
+      [FieldOffset(4)]
+      public uint TimeDateStamp;
+
+      [FieldOffset(8)]
+      public uint ForwarderChain;
+
+      [FieldOffset(12)]
+      public uint Name;
+
+      [FieldOffset(16)]
+      public uint FirstThunk;
+  }
+```
+
+Buradaki struct yapısına baktığımızda her biri 20 byte'tan oluşmakta ve 12-16 arası bulunan byte'lar import edilen DLL'in isminin bulunduğu adresi içermekte, yukarıdaki görsele baktığımızda seçili kısımdaki 4. 4'lü byte değerimiz **0x27C6** olduğunu görüyoruz. Tekrar File Offset değerini hesaplamamız gerekmekte. RVA(0x27C6) + Raw Offset(0x1200) - Virtual Offset(0x2000) => 0x19C6.
+
+<img title="Imported DLL Name" src="../assets/imported-dll-name.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+Ve bu DLL içerisinden import edilen API'ların bulunduğu kısım ise **OriginalFirstThunk** kısmında bulunmakta yani **IMAGE_IMPORT_DESCRIPTOR** yapısındaki 0-4 arası byte değerlerine bakacağız. Örneğimizde bu değer **0x26F0** olmaktadır. Tekrar File Offset değerini hesaplamamız gerekmekte. RVA(0x26F0) + Raw Offset(0x1200) - Virtual Offset(0x2000) => 0x18F0.
+
+<img title="OriginalFirstThunk" src="../assets/original-thunk.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+Burada bulunan değerler ise **IMAGE_THUNK_DATA** struct yapısında bulunur.
+
+```
+[StructLayout(LayoutKind.Explicit)]
+  public struct IMAGE_THUNK_DATA32
+  {
+      [FieldOffset(0)]
+      public uint ForwarderString;
+
+      [FieldOffset(0)]
+      public uint Function;
+
+      [FieldOffset(0)]
+      public uint Ordinal;
+
+      [FieldOffset(0)]
+      public uint AddressOfData;
+  }
+
+  [StructLayout(LayoutKind.Explicit)]
+  public struct IMAGE_THUNK_DATA64
+    {
+      [FieldOffset(0)]
+      public ulong ForwarderString;
+
+      [FieldOffset(0)]
+      public ulong Function;
+
+      [FieldOffset(0)]
+      public ulong Ordinal;
+
+      [FieldOffset(0)]
+      public ulong AddressOfData;
+  }
+```
+
+Her bir API'ın ismi 4byte boyutunda RVA olarak saklanır, bir DLL'in thunk verileri bittiğinde ise 0x00000000 değeri görülür. Örneğin çağırılan 1 ve 2. fonksiyonlara bakalım. Öncelikle tekrar File Offset değerini hesaplıyoruz: 
+
+**1. API için File Offest: RVA(0x27B8) + Raw Offset(0x1200) - Virtual Offset(0x2000) = 0x19B8** 
+
+**1. API için File Offest: RVA(0x2BB2) + Raw Offset(0x1200) - Virtual Offset(0x2000) = 0x1DB2** 
+
+<img title="First API Name" src="../assets/first-api.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+<img title="Second API Name" src="../assets/second-api.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+
+Bu şekilde tüm çağrılan DLL ve API'ları tespit edebiliriz.
+
+
+---
+
+
 Eleştiri/düzeltme/öneri için lütfen iletişim adreslerimden bana ulaşınız. Yorumlarınız benim için değerli :)
 
 ---
+
 # Referans
 
 [1] en[.]wikipedia.org/wiki/Portable_Executable
 
 [2] github[.]com/corkami/pics/tree/master/binary/pe101
 
-[3] learn[.]microsoft.com/en-us/windows/win32/debug/pe-format#coff-file-header-object-and-image
+[3] 0xrick[.]github.io/win-internals/pe3/
 
-[4] 0xrick[.]github.io/win-internals/pe3/
+[4] learn[.]microsoft.com/en-us/windows/win32/debug/pe-format#coff-file-header-object-and-image
+
+[5] 0xrick[.]github.io/win-internals/pe4/#optional-header-image_optional_header
+
+[6] learn[.]microsoft.com/en-us/windows/win32/debug/pe-format#section-table-section-headers
