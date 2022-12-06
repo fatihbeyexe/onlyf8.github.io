@@ -5,10 +5,6 @@ published: true
 category: malware
 ---
 
-# İçerik
-
----
-
 # PE Nedir?
 
 PE(Portable Executable) yani taşınılabilir yürütülebilir dosyalar Windows sistemler arasında uyumluluk sorunu yaşamadan taşınıp çalıştırılabilen dosyalardır. Taşınabilir olması için tüm cihazlar için ortak bir dil/mimari tanımlanması gerekmektedir, bir cihazda "A" anlamına gelen veri diğer cihazda da "A" anlamına gelmelidir. Burada da ortaya bir mimari çıkıyor. Örneğin bir taşınabilir dosyanın 0x24 adresinde ImageBase verisinin taşındığı bütün cihazlar tarafından bilinmektedir ve ona göre yorumlanıp dosya çalıştırılmaktadır. Bu yazıda genel hatlarıyla bir PE yapısında neler bulunduğuna ve bunların ne anlamlara geldiğine bakılacaktır.
