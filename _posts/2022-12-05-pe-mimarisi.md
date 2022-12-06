@@ -26,7 +26,9 @@ Relative Virtual Adress, iki Virtual Adress arasındaki farktır. Virtual Adress
 
 # DOS Headers
 DOS Header 64 byte boyutundaki bir veri yapısıdır ve çalıştırılabilir bir dosyanın en başında bulunur. Dosyanın işlevini etkilemeyen bu kısım dosyanın uyumluluk sorunu oluşturmaması için oluşturulmuştur. MS-DOS üzerinde çalıştırıldığında gerçek program yerine MS-DOS Stub mesajı olan **"This program cannot be run in DOS mode"** yazısı gösterilmektedir. Bu header olmadan herhangi bir PE dosyası çalışmayacaktır. 64 byte boyutundaki veri içeriği şu şekildedir: 
-```typedef struct _IMAGE_DOS_HEADER {      // DOS .EXE header
+
+```
+typedef struct _IMAGE_DOS_HEADER {      // DOS .EXE header
     WORD   e_magic;                     // Magic number
     WORD   e_cblp;                      // Bytes on last page of file
     WORD   e_cp;                        // Pages in file
@@ -47,7 +49,7 @@ DOS Header 64 byte boyutundaki bir veri yapısıdır ve çalıştırılabilir bi
     WORD   e_res2[10];                  // Reserved words
     LONG   e_lfanew;                    // File address of new exe header
   } IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;   [4]
-  ``` 
+``` 
 
 Burada bizim için önemli 2 adet değer bulunmaktadır; 
 
