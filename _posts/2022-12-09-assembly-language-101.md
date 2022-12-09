@@ -5,13 +5,13 @@ published: true
 category: malware
 ---
 
-# What is Assembly? 
+<h1 style="text-align:center"> What is Assembly? </h1>
 
 In the first years of computers, different processor architectures began to be produced. These architectures are the rules that determine the code that can be run on and the results of the code that is run. I don't want to dive too far into its history (I don't know too much :)), the Assembly language that has survived to the present day and will be discussed in this blog post is the x86 Assembly language created for the Intel 8086 architecture.  Assembly is one of the low-level languages. It's more user-friendly than machine code, but still not like high-level languages. It is one of the languages closest to machine code. In this blog post, the structure and analysis of x86 Assembly language in general will be discussed.
 
 --- 
 
-# Linker - Loader - Compiler
+<h1 style="text-align:center"> Linker - Loader - Compiler </h1>
 
 Without digging deeper, let's see, for example, what happens in the background when a C/C++ source code file is compiled. Here we come across three concepts.; **Compiler, Linker ve Loader**. 
 
@@ -32,7 +32,7 @@ The part that interests us here is to analyze the compiled files with the help o
 
 ---
 
-# Registers
+<h1 style="text-align:center"> Registers </h1>
 
 There are predefined register values in assembly language that are used for specific purposes. We cannot do **"int a=5"** as in traditional coding languages. So, what are these registers? 
 
@@ -79,7 +79,7 @@ Unlike other registers, they are registers used to generate/store memory address
 
 ---
 
-# Instructions
+<h1 style="text-align:center"> Instructions </h1>
 
 The structure of assembly language is generally **" INSTRUCTION TARGET, SOURCE"**, but for some commands this may vary. For example;
 
@@ -129,7 +129,7 @@ Logical XOR table:
 
 ---
 
-#  Data Addressing Modes
+<h1 style="text-align:center"> Data Addressing Modes </h1>
 
 |Type|Source|Target|Example|
 |--|--|--|--|
@@ -144,7 +144,7 @@ Logical XOR table:
 
 ---
 
-# Function Calls and Stack Structure
+<h1 style="text-align:center"> Function Calls and Stack Structure </h1>
 
 In high-level software languages, function calls are usually called like **"function_name(parameter1,parameter2)"** and if there is a return value, they are assigned directly on that line etc. So how does it look when we compile it? Here we need to look at the stack structure. A stack is a data structure used for data management and storage. LIFO i.e. **L**ast  **I**n  **F**irst  **O**ut structure:
 
@@ -164,7 +164,7 @@ As seen in the image; The push command was executed 7 times for 7 parameters and
 
 ---
 
-# Exercise
+<h1 style="text-align:center"> Exercise </h1>
 
 In general, we talked about the basics of Assembly that a malware analyst should know. Now let's gather all the information here and practice.
 
