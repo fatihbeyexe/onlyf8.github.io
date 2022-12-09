@@ -293,7 +293,7 @@ Her bir API'ın ismi 4byte boyutunda RVA olarak saklanır, bir DLL'in thunk veri
 
 **1. API için File Offest: RVA(0x27B8) + Raw Offset(0x1200) - Virtual Offset(0x2000) = 0x19B8** 
 
-**1. API için File Offest: RVA(0x2BB2) + Raw Offset(0x1200) - Virtual Offset(0x2000) = 0x1DB2** 
+**2. API için File Offest: RVA(0x2BB2) + Raw Offset(0x1200) - Virtual Offset(0x2000) = 0x1DB2** 
 
 <img title="First API Name" src="../assets/first-api.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
