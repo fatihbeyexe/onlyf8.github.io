@@ -103,22 +103,22 @@ By interpreting the hexadecimal values in the executable section of the file, we
 3. **AND**: Performs the logical AND operation. Used as **AND TARGET,SOURCE**. 
 Logical AND table:
 
-| 1. Value | 2. Value |Result|
-|-|-|-|
-|0|0|**0**|
-|0|1|**1**|
-|1|0|**1**|
-|1|1|**1**|
+    | Value | Value |Result|
+    |-|-|-|
+    |0|0|**0**|
+    |0|1|**1**|
+    |1|0|**1**|
+    |1|1|**1**|
 
 4. **XOR**: Performs the logical XOR operation. Used as**XOR TARGET,SOURCE**. XOR produces a result of "1" for different values and "0" for the same values. It is often used to reset register values because **"XOR EAX,EAX"**  resets the contents of the **EAX** register.
 Logical XOR table:
 
-| 1. Value | 2. Value |Result|
-|-|-|-|
-|0|0|**0**|
-|0|1|**1**|
-|1|0|**1**|
-|1|1|**0**|
+    | Value | Value |Result|
+    |-|-|-|
+    |0|0|**0**|
+    |0|1|**1**|
+    |1|0|**1**|
+    |1|1|**0**|
 
 5. **CMP**: Used for comparison. **CMP Operand1,Operand2". It produces results according to the difference by performing arithmetic subtraction. Although the removal process is done, there is no change in the operands. If the result of the operation is 0 **Zero Flag** is set.
 6. **TEST**: It is often used to test whether the result returned after function calls is 0. Performs a logical **AND** operation.  Used as **TEST Operand1,Operand2**. The logic of testing whether 0 is or not is as follows; In an AND operation, only if both values are "0", a result of "0" is generated. For example, when **"TEST EAX,EAX"**  is performed, the only chance that the result of this operation is  "0" is that the value of the **EAX** register is "0".
