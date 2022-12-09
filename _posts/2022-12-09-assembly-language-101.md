@@ -81,7 +81,7 @@ Unlike other registers, they are registers used to generate/store memory address
 
 <h1 style="text-align:center"> Instructions </h1>
 
-The structure of assembly language is generally **" INSTRUCTION TARGET, SOURCE"**, but for some commands this may vary. For example;
+The structure of assembly language is generally **"INSTRUCTION TARGET, SOURCE"**, but for some commands this may vary. For example;
 
 ```
 MOV(Instruction) AX(Target),0020H(Source)
@@ -120,11 +120,11 @@ Logical XOR table:
     |1|0|**1**|
     |1|1|**0**|
 
-5. **CMP**: Used for comparison. **CMP Operand1,Operand2". It produces results according to the difference by performing arithmetic subtraction. Although the removal process is done, there is no change in the operands. If the result of the operation is 0 **Zero Flag** is set.
+5. **CMP**: Used for comparison. **CMP Operand1,Operand2"**. It produces results according to the difference by performing arithmetic subtraction. Although the removal process is done, there is no change in the operands. If the result of the operation is 0 **Zero Flag** is set.
 6. **TEST**: It is often used to test whether the result returned after function calls is 0. Performs a logical **AND** operation.  Used as **TEST Operand1,Operand2**. The logic of testing whether 0 is or not is as follows; In an AND operation, only if both values are "0", a result of "0" is generated. For example, when **"TEST EAX,EAX"**  is performed, the only chance that the result of this operation is  "0" is that the value of the **EAX** register is "0".
 7. **JMP**: Branching command. Used as **"JMP ADRESS"**. 
 8. **CALL**: Used for calling functions. Used as **"CALL ADRESS"** or  **"CALL Function Name"**.
-9. **Şartlı Dallanmalar**: It is used to branch according to the result of the comparison. For example, when we do **"if(a>5){...}" ** in high-level languages, we can actually think of it as going somewhere and running the commands at that address if a condition is met, if not, go to a different place or continue in the normal flow. In such cases, the compiler generates conditional branching commands. 
+9. **Şartlı Dallanmalar**: It is used to branch according to the result of the comparison. For example, when we do **"if(a>5){...}"** in high-level languages, we can actually think of it as going somewhere and running the commands at that address if a condition is met, if not, go to a different place or continue in the normal flow. In such cases, the compiler generates conditional branching commands. 
 10. **INC and DEC**: Used as **INC/DEC OPERAND**. INC increases the value of operands by 1, DEC decreases the value of operands by 1.
 
 ---
