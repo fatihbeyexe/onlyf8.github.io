@@ -70,7 +70,7 @@ Farklı bayraklar da bulunmaktadır fakat zararlı yazılım analizi için bilin
 
 ### Segment Registers
 
-Unlike other registers, they are registers used to generate/store memory addresses. It  has similar structures to the **"Section"** sections in the previous article.. [See PE 101](2022-12-05-pe-format.md).
+Unlike other registers, they are registers used to generate/store memory addresses. It  has similar structures to the **"Section"** sections in the previous article.. [See PE 101](pe-format).
 
 1. **Code (CS)**: Holds the instructions used by the processor.
 2. **Data (DS)**: Contains the data that is used by the programs.
