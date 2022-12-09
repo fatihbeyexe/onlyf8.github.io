@@ -27,9 +27,9 @@ title: Archive
         {% endif %}
       {% endunless %}
         <li><time>{{ post.date | date:"%d %b" }} - </time>
-          <h3>{{ post.language }}</h3>
+          <h3></h3>
           <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-            {{ post.title }}
+            {{  post.language post.title }}
           </a>
         </li>
     {% endfor %}
