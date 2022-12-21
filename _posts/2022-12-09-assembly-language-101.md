@@ -66,7 +66,6 @@ The Multipurpose Registers mentioned above have numeric values, but the flags we
 2. **Parity Flag (P)**: Count of ones in a number expressed as even or odd. Logic 0 for odd parity; logic 1 for even parity. 
 3. **Zero Flag (Z)**: The flag is set when the result of an arithmetic or logical operation is "0". 
 
-Farklı bayraklar da bulunmaktadır fakat zararlı yazılım analizi için bilinmesi gereken önemli bayraklar bunlardır.
 
 ### Segment Registers
 
