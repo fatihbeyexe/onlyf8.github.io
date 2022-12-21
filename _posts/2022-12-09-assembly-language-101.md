@@ -106,8 +106,8 @@ Logical AND table:
     | Value | Value |Result|
     |-|-|-|
     |0|0|**0**|
-    |0|1|**1**|
-    |1|0|**1**|
+    |0|1|**0**|
+    |1|0|**0**|
     |1|1|**1**|
 
 4. **XOR**: Performs the logical XOR operation. Used as**XOR TARGET,SOURCE**. XOR produces a result of "1" for different values and "0" for the same values. It is often used to reset register values because **"XOR EAX,EAX"**  resets the contents of the **EAX** register.
