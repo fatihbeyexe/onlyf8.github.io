@@ -11,7 +11,6 @@ category: malware
 + Meta
 + Stringler
 + Condition'lar
-+ Modüller
 
 ---
 
@@ -201,6 +200,8 @@ rule APT34_Malware_HTA {
       filesize < 60KB and ( 1 of ($x*) or all of ($s*) )
 }
 ```
+[1]
+
 Yukarıdaki YARA kuralı örneğinin **"condition"** kısmına bakıldığında; "$x" ile başlayanlardan 1 tanesi veya "$s" ile başlayanların hepsinin bulunduğu durumlarda alarm üretecektir. Bu da bir zararlı yazılım ailesi veya bir saldırı grubunun kullandığı teknikleri bir kuralda toplamak için kullanılan tekniklerdendir.
 
 Yazılan IOC değerleri (string, hex vb.) bir zararlı yazılım ailesini veya bir saldırı grubunu tespit etmek için yazılabilmektedir. Bu gibi durumlarda belirli IOC'ler hepsinde bulunurken bazı durumlarda değişiklik gösterebilmektedir. Bu gibi durumlarda farklı koşullar oluşturulmaktadır. 
@@ -216,4 +217,6 @@ Eleştiri/düzeltme/öneri için lütfen iletişim adreslerimden bana ulaşını
 
 # Referans
 
-[1] https://yara.readthedocs.io/en/stable/
+[1] https://github.com/Neo23x0/signature-base/blob/master/yara/apt_apt34.yar
+
+[2] https://yara.readthedocs.io/en/stable/
