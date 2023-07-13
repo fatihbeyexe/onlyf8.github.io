@@ -48,7 +48,7 @@ There are 3 ways here:
 
 ---
 
-# Dinamic Unpack
+# Dynamic Unpack
 
 First of all, we pack a software with the UPX tool. A different packing tool can also be used here. Generally, unpack operations follow the same logic.
 
