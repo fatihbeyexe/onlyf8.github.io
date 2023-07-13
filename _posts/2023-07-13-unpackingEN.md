@@ -59,8 +59,6 @@ We can see that the size of the packaged file has decreased. Let's look at the d
 <img title="Packed Sample PeStudio" width="600" height="300" src="../assets/packed_sample_pestudio.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 
-<img title="Packed Sample PeStudio" width="1100" height="450" src="../assets/packed_sample_pestudio-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
-
 Here too, we can see that the number of imported functions and strings has decreased.  
 
 Packaged software usually starts with **"pushad/pusha"** instructions. What is the reason for this? The push command is used to write data to the stack. **Pushad** writes all general-purpose registers into the stack. When the initial registers of the program are kept and the packed part is unpacked, it removes these registers from the stack and brings the program to the starting state. Now let's imagine a stack, initially a data block is written into this stack and when the unpack process is completed, this block is removed from the stack. When we think with a simple logic; If we assign a breakpoint to the memory address where the **ESP** Stack Pointer is located after the **"push"** command, the program will hang on the breakpoint when the unpack process is finished.

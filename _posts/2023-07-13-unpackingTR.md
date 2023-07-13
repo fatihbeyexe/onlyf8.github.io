@@ -58,9 +58,6 @@ Paketlenmiş dosyanının boyutunun düştüğünü görebiliyoruz. Orijinal dos
 
 <img title="Packed Sample PeStudio" width="600" height="300" src="../assets/packed_sample_pestudio.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
-
-<img title="Packed Sample PeStudio" width="1100" height="450" src="../assets/packed_sample_pestudio-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
-
 Burada da import edilen fonksiyon ve string sayılarının düştüğünü görebiliyoruz.  
 
 Paketlenmiş yazılımlar genellikle **"pushad/pusha"** instructionları ile başlamaktadır. Peki bunun sebebi nedir? **Push** komutu, stack üzerine veri yazmak için kullanılır. **Pushad** ise genel amaçlı bütün registerları stack içerisine yazar. Programın başlangıçtaki registerlarının saklanıp, paketlenmiş kısım unpack edildiğinde tekrar bu registerları stackten çıkarıp programı başlangıç durumuna getirir. Şimdi hayali olarak bir stack düşünelim, başlangıçta bir veri bloğu bu stack içerisine yazılıyor ve unpack işlemi tamamlandığında bu blok stack içerisinden çıkarılıyor. Basit bir mantıkla düşündüğümüzde; **"push"** komutundan sonra **ESP** yani Stack Pointer'ının bulunduğu hafıza adresine breakpoint atarsak, unpack işlemi bittiğinde program breakpoint'e takılacaktır. 
