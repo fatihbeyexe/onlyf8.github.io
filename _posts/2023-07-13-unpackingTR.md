@@ -44,7 +44,7 @@ Burada 3 temel yol bulunmaktadır:
     > Her zaman saldırganın kullandığı algoritmayı çözemeyebiliriz. Yaptığımız ufak bir hata veya gözden kaçan bir nokta unpack işlemini başarısız kılabilir. Bu gibi durumlarda yazılım debugger üzerinde unpack edilir (breakpointler yardımıyla) ve analize dump almadan devam edilir. Yeni bir dosya oluşturulmaz.
 
 
-    <img title="Packing/Unpacking" width="600" height="230" src="../assets/packing_unpacking.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+    <img title="Packing/Unpacking"  src="../assets/packing_unpacking.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 ---
 
@@ -52,29 +52,29 @@ Burada 3 temel yol bulunmaktadır:
 
 Öncelikle bir yazılımı UPX aracı ile paketliyoruz. Burada farklı bir paketleme aracı da kullanılabilir. Genellikle unpack işlemleri aynı mantıkla yürümektedir.
 
-<img title="Packed Sample" width="600" height="350" src="../assets/packed_sample.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Packed Sample"  src="../assets/packed_sample.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Paketlenmiş dosyanının boyutunun düştüğünü görebiliyoruz. Orijinal dosya ve paketlenmiş yazılımın farkına bir de PeStudio üzerinde bakalım.
 
-<img title="Packed Sample PeStudio" width="600" height="300" src="../assets/packed_sample_pestudio.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Packed Sample PeStudio"  src="../assets/packed_sample_pestudio.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Burada da import edilen fonksiyon ve string sayılarının düştüğünü görebiliyoruz.  
 
 Paketlenmiş yazılımlar genellikle **"pushad/pusha"** instructionları ile başlamaktadır. Peki bunun sebebi nedir? **Push** komutu, stack üzerine veri yazmak için kullanılır. **Pushad** ise genel amaçlı bütün registerları stack içerisine yazar. Programın başlangıçtaki registerlarının saklanıp, paketlenmiş kısım unpack edildiğinde tekrar bu registerları stackten çıkarıp programı başlangıç durumuna getirir. Şimdi hayali olarak bir stack düşünelim, başlangıçta bir veri bloğu bu stack içerisine yazılıyor ve unpack işlemi tamamlandığında bu blok stack içerisinden çıkarılıyor. Basit bir mantıkla düşündüğümüzde; **"push"** komutundan sonra **ESP** yani Stack Pointer'ının bulunduğu hafıza adresine breakpoint atarsak, unpack işlemi bittiğinde program breakpoint'e takılacaktır. 
 
-<img title="Stack" width="800" height="400" src="../assets/unpack_stack.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Stack"  src="../assets/unpack_stack.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Dinamik unpack işleminin temel mantığı budur. Elbette farklı paketleme algoritmalarına farklı karşı teknikler üretilmesi gerekmektedir. Debugger üzerinde uygulamanın entrypoint'ine geldiğimizde **pushad** instruction'ını görebiliyoruz.
 
-<img title="Dinamik Unpack" width="800" height="400" src="../assets/packed_sample_dinamik.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 x86 Debugger üzerinde **F8** tuşu ile birlikte yalnızca bir instruction çalıştırarak **pushad** instruction'ının çalışmasını sağlıyoruz ve ardından ESP değerinin değiştiğini görebiliyoruz.
 
-<img title="Dinamik Unpack" width="800" height="400" src="../assets/packed_sample_dinamik-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 ESP değerine sağ tıklayıp **Follow in dump** butonuna tıklayarak ESP değerinin işaret ettiği hafıza adresini görüntülüyoruz. Ardından bu adresten itibaren 2 byte seçerek **Hardware Access** türünden breakpoint atıyoruz ve **F9** tuşuna basarak breakpoint'e gelene kadar çalışmasını sağlıyoruz.
 
-<img title="Dinamik Unpack" width="800" height="400" src="../assets/packed_sample_dinamik-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Sol alt kısımda **Paused** yazısını gördüğümüzde aynı şekilde yan tarafında da neden durduğunu görebiliyoruz. Programın durduğu instruction'ın bir üst instruction'ına baktığımızda ise **popad/popa** instruction'ını göreceğiz. Bu bize şunu ifade ediyor; program unpack edilecek verileri stack üzerinde işledi ve unpack işlemini bitirdi, programın başlangıç registerlarını stackten çıkartarak asıl kodların çalışmasına başlayacak. 
 
@@ -82,11 +82,11 @@ Sol alt kısımda **Paused** yazısını gördüğümüzde aynı şekilde yan ta
 
 Dallanmayı gerçekleştirdiğimizde ise unpack edilmiş kod bloğunun başlangıç adresine geldiğimizi görebiliyoruz. 
 
-<img title="Dinamik Unpack" width="800" height="350" src="../assets/packed_sample_dinamik-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Bu büyük dallanmanın yanı sıra unpack ettiğimizde dump almak için kullanacağımız uygulama da unpack işleminin tamamlanıp tamamlanmadığı konusunda bize yardımcı olacaktır. x86 plugin'lerinden biri olan **Scylla** açıldığında **IAT (Import Address Table) Autosearch** butonuna tıkladığımızda IAT'yi bulursa işlemimiz başarılı demektir. Ardından **Get Imports** butonuna tıklayarak dump alacağımız dosyanın çalıştırılabilir hale getirilmesini sağlıyoruz. Sonrasında **Dump** ve **Fix Dump** butonlarına tıklayarak unpack işlemini bitiriyoruz. 
 
-<img title="Dinamik Unpack" width="500" height="560" src="../assets/scylla.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/scylla.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 ---
 
