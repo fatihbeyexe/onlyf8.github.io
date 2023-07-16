@@ -44,7 +44,7 @@ There are 3 ways here:
     > We may not always be able to reverse the algorithm that the attacker is using. A small mistake or an overlooked point we make can make the unpack process fail. In such cases, the software is unpacked on the debugger (with the help of breakpoints) and the analysis is continued without dumping. A new file is not created.
 
 
-    <img title="Packing/Unpacking" width="600" height="230" src="../assets/packingEN.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+    <img title="Packing/Unpacking"  src="../assets/packingEN.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 ---
 
@@ -52,30 +52,30 @@ There are 3 ways here:
 
 First of all, we pack a software with the UPX tool. A different packing tool can also be used here. Generally, unpack operations follow the same logic.
 
-<img title="Packed Sample" width="600" height="350" src="../assets/packed_sample.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Packed Sample" src="../assets/packed_sample.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 We can see that the size of the packaged file has decreased. Let's look at the difference between the original file and the packaged software on PeStudio.
 
-<img title="Packed Sample PeStudio" width="600" height="300" src="../assets/packed_sample_pestudio.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Packed Sample PeStudio"  src="../assets/packed_sample_pestudio.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 
 Here too, we can see that the number of imported functions and strings has decreased.  
 
 Packaged software usually starts with **"pushad/pusha"** instructions. What is the reason for this? The push command is used to write data to the stack. **Pushad** writes all general-purpose registers into the stack. When the initial registers of the program are kept and the packed part is unpacked, it removes these registers from the stack and brings the program to the starting state. Now let's imagine a stack, initially a data block is written into this stack and when the unpack process is completed, this block is removed from the stack. When we think with a simple logic; If we assign a breakpoint to the memory address where the **ESP** Stack Pointer is located after the **"push"** command, the program will hang on the breakpoint when the unpack process is finished.
 
-<img title="Stack" width="800" height="400" src="../assets/unpack_stackEN.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Stack"  src="../assets/unpack_stackEN.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 This is the basic logic of the dynamic unpack process. Of course, different counter techniques to different packing algorithms need to be produced. When we come to the entrypoint of the application on the debugger, we can see the **pushad** instruction.
 
-<img title="Dinamik Unpack" width="800" height="400" src="../assets/packed_sample_dinamik.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 On the x86 Debugger, we run the **pushad** instruction by simply running an instruction with the **F8** key, and then we can see that the ESP value changes.
 
-<img title="Dinamik Unpack" width="800" height="400" src="../assets/packed_sample_dinamik-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 By right-clicking on the ESP value and clicking on the **Follow in dump** button, we display the memory address indicated by the ESP value. Then, from this address, we select 2 bytes and toggle a breakpoint of the **Hardware Access ** type and press the **F9** key to make it work until it comes to the breakpoint.
 
-<img title="Dinamik Unpack" width="800" height="400" src="../assets/packed_sample_dinamik-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 When we see **Paused** on the lower left, we can see why it is standing on the side of it in the same way. When we look at the next instruction of the instruction, where the program stops, we will see the **popad/popa** instruction. This tells us that; The program has processed the data to be unpacked on the stack and finished the unpack process, removing the startup registers of the program from the stack and starting the actual code to run. 
 
@@ -83,11 +83,11 @@ Now that we've completed the unpack process, where is the actual code block? Her
 
 When we perform the branching, we can see that we have come to the starting address of the unpacked code block. 
 
-<img title="Dinamik Unpack" width="800" height="350" src="../assets/packed_sample_dinamik-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/packed_sample_dinamik-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 In addition to this large branching, the application that we will use to receive the dump when we unpack will also help us whether the unpack process is complete or not. When **Scylla**, one of the x86 plugins, is opened, if we click on the **IAT (Import Address Table) Autosearch** button and find the IAT, our operation is successful. Then, by clicking on the **Get Imports** button, we ensure that the file we will dump is made executable. Then we finish the unpack process by clicking on the **Dump** and **Fix Dump** buttons. 
 
-<img title="Dinamik Unpack" width="500" height="560" src="../assets/scylla.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Dinamik Unpack"  src="../assets/scylla.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 ---
 
