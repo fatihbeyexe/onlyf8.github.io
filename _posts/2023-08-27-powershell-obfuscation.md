@@ -71,27 +71,27 @@ Yukarıda Special Character tekniği ile obfuscate edilmiş bir powershell scrip
 
 Öncelikle bu powershell tek bir satır değil çünkü aralarda **;** karakterini satır satır ayırmak için kullanıldığını görebiliyoruz. Bu karakterlerden sonra satır atlayıp scripti satır satır çalıştırılabilecek hale getiriyoruz.  
 
-<img title="PE 101" src="deobfuscation_step1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/deobfuscation_step1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Şimdi bir nebze daha okunabilir ( :D ) hale geldi. Peki bu satırlar ne yapıyor? Powershell ISE kullanarak satır satır çalıştıralım.
 
-<img title="PE 101" src="deobfuscation_step2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/deobfuscation_step2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Adım adım çalıştırdığımızda şunu fark ediyoruz; 1. satırda ilk oluşturulan değişkene "0" değeri atanıyor, ardından farklı bir değişkene de bu değer atanıyor. 3. satıra geldiğimizde ise oluşturulan değişkene **++0** değerinin atandığını görebilirsiniz. Bu satırda **0** olarak tanımlanan değişken **1** arttırılıp yeni oluşturulan değişkene atanmaktadır. Bu şekilde 0-9 arası bütün rakamlar birer değişkende saklanmaktadır. Peki ne işe yarayacak bu rakamlar? 
 
-<img title="PE 101" src="deobfuscation_step3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/deobfuscation_step3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Rakam tanımlamaları bittikten sonra 12. satıra geliyoruz. Bu satırdaki değişkene ise çeşitli native powershell değişkenleri kullanılarak **"[Char]"** stringi atanmaktadır. Peki bu  **"[Char]"** stringi ne işe yarayacak?
 
-<img title="PE 101" src="deobfuscation_step4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/deobfuscation_step4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Bir sonraki satırda ise yine native değişkenlerden olan (yukarıdaki görselde kırmızı ile kutu içine alınmış değişkenler) **System.Collections.Hashtable** değişkeni üzerinden index kullanılarak **insert** metodu oluşturulduğu görülmektedir. Yalnızca **r** harfi **"$?"** yani **True** stringi üzerinden elde edilmiştir. 
 
-<img title="PE 101" src="deobfuscation_step5.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/deobfuscation_step5.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Ardından yine **System.Collections.Hashtable** stringi üzerinden index kullanılarak **"ie"** stringi elde edildiği, bir önceki satırda oluşturulan değişken üzerinden ise **"x"** harfi alınarak **"iex"** yani **Invoke-Expression** metodu elde edildiği görülmektedir. Son satırda ise **"iex"** ardından **"[Char]"** kullanılarak obfuscate edilmiş script çalıştırılacağı görülmektedir. Bu komutu çalıştırmadan elde etmek için şunu yapabiliriz; artık **iex** değişkenini biliyoruz, o zaman bu değişken yerine **"echo"** yazarsak komutu çalıştırmak yerine ekrana basacaktır. Fakat bu scriptte iki adet **iex** bulunmakta. Birincisi 15. satırın başında, ikincisi ise sonunda. Baştaki **iex** stringi oluşturmak için, sondaki ise komutu çalıştırmak için yazılmıştır. Sondaki **iex** stringini taşıyan değişken yerine **"echo"** yazıp komutu elde edebiliriz.
 
-<img title="PE 101" src="deobfuscation_step6.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/deobfuscation_step6.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Special Character Obfuscation uygulanmış bir scripti tersine çevirmenin diğer yolu ise şudur; örneğin **"${;#'}"** değişkenine 0 rakamı atandı. Çeşitli text editor araçlarıyla bu değişkenin geçtiği her yerdeki değerini 0 ve diğer değişkenlerin de sayısal değerlerini tüm satırlarda değiştirip, son satırdaki **"[Char][x]"** x'yerine gelen rakamları okunur hale getirip tüm stringi elde edebilirsiniz. 
 
@@ -102,11 +102,11 @@ Special Character Obfuscation uygulanmış bir scripti tersine çevirmenin diğe
 
 Powershell üzerinde ```$a="A"+"B" ``` şeklinde iki ve daha fazla string birleştirilerek bir değişkene atanabilir veya bir metoda parametre olarak verilebilir. Bir diğer string parçalama yöntemi ise liste yöntemidir. ```$a=("{0}{1}")-f'A','B' ``` şeklinde yapılan tanımlamada; **-f** anahtarından sonra verilen her bir string elemanı 0'dan başlayarak indekslenir ardından **-f** anahtarından önceki string içerisinde süslü parantezler arasında bulunan index numaralarına göre stringde yerine yazılır. Yukarıdaki iki powershell komutu da **$a** değişkeninin değerini **AB** yapmaktadır. Peki bu iki teknik birlikte kullanılırsa ne olur? 
 
-<img title="PE 101" src="formatList-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/formatList-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Tatlı mı tatlı bir powershell scriptiniz olur :) Birçok random değişken ismi, string birleştirme, liste formatında string modifikasyonu, Base64, Gunzip vs. Ortalık epey karışık. Nereden başlamalıyız? Öncelikle değişken isimlerini okunabilir hale getiriyoruz. Ardından ```'+' ``` karakterlerini tüm script içerisinde siliyoruz.
 
-<img title="PE 101" src="formatList-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/formatList-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Artık bazı stringler az da olsa okunabilir/tahmin edilebilir hale geldi. Şimdi ikinci satıra odaklanalım; 
 
@@ -122,37 +122,37 @@ $value1_=[Ref].Assembly.GetType(('System.Management.Automation.AmsiUtils'));
 
 **-f** yani **Format List** yapısının çözümlenme biçimi bu şekildedir. Şimdi bütün satırları aynı şekilde okunabilir hale getirelim. 
 
-<img title="PE 101" src="formatList-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/formatList-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Bütün stringleri çözümledik, şimdi anlamlandıralım. Satırlarda geçen kavramların birçoğu powershell üzerinde bulunan güvenlik mekanizmalarını devre dışı bırakmak üzerine yazılmış olduğunu fark ediyoruz. Bunlar; AMSI (Anti-Malware Scan Interface), ScriptBlockLogging (çalıştırılan powershell scriptlerinin loglanmasına yarayan güvenlik mekanizması) vb. mekanizmalardır. İlk satırda yapılan versiyon kontrolü ise bu güvenlik mekanizmalarının olup olmadığını kontrol etmek için koyulduğu düşünülmektedir. AMSI mekanizması PowerShell 4.0, ScriptBlockLogging ise PowerShell 5.0 ile eklenmiş özelliklerdir. Eğer 3 ve daha küçük bir sürüme sahip powershell üzerinde bu komutlar çalışacaksa zaten halihazırda bu mekanizmalar olmayacağı için bu mekanizmalar üzerinde işlem yapmaya çalıştığımızda hata alacağız. Bundan dolayı saldırganların böyle bir kontrol koyduğu düşünülmektedir.
 
 Son satırda ise ampersand (&) işareti ile birlikte sonrasında gelen komut çalıştırılmıştır. Peki nedir bu komut? **+** karakteri ile birleştirme sonrasında Format List ile birlikte string tamamla işleminin ardından bir Base64Decode sonrasında ise Gunzip ile decompress edilen bir string karşımızda çıkıyor. Yani asıl çalıştırılmak istenen komut; Gunzip ile compress edilmiş ,Base64 ile encode edilmiş, Format List'e uygun hale getirilmiş -> **+** karakteri ile parçalanmış ve son halini almış. Bu sıralamayı tersinden yaparsak orjinal stringe ulaşabiliriz.
 
-<img title="PE 101" src="cyberChef-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/cyberChef-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Orjinal string'i CyberChef üzerinde önce **FromBase64** sonrasında ise **Gunzip Decompress** yaparak bir sonraki adıma geçiyoruz. Tekrar bir powershell scripti ile karşılaşıyoruz. Bu powershell scriptine baktığımızda ise .NET metodları kullanarak bir shellcode çalıştırdığını anlayabiliyoruz. Hafıza bloğunda **VirtualAlloc** ile bir yer ayrıldığını, ardından bu yeni oluşturulan kısma Base64 ile encode edilmiş sonrasında decode edilen shellcode'un **Copy** ile taşındığını sonrasında ise **CreateThread** ile çalıştırıldığı anlaşılmaktadır.
 
-<img title="PE 101" src="secondStage-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/secondStage-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Şimdiki aşamada ise shellcode'u elde edip neler elde edebileceğime bakacağız. Öncelikle buradaki Base64 değerini CyberChef kullanarak decode ediyoruz ve **Download** özelliğini kullanarak indiriyoruz.
 
-<img title="PE 101" src="cyberChef-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/cyberChef-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 **Blobrunner** kullanarak bu shellcode'u debug edeceğiz. Burada iki yöntem vardır; blobrunner'ı komut satırından **blobrunner.exe <shellcode dosyası>** satırı ile çalıştırıp sonrasında debugger üzerinden bu process'e attach olabiliriz (blobrunner shellcode'u çalıştırmadan önce kendisini durdurur ve sizden bir tuşa basmanızı bekler) ve blobrunner'ın shellcode'u yüklediği adrese breakpoint atarak programı devam ettirebiliriz veya direkt olarak blobrunner'ı debugger üzerinden çalıştırıp komut satırını değiştirip aynı işlemleri yapabiliriz. 
 
-<img title="PE 101" src="shellcodeDebug-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/shellcodeDebug-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Çalıştırdığımızda dinamik olarak çözümlenen API'ler görmekteyiz. Burada **jmp rax** satırında çözümlenen API'lerin çağrıldığını tespit ediyoruz ve bu satıra breakpoint atarak **RAX** register'ı üzerinden çağrılan API'leri takip ediyoruz. 
 
-<img title="PE 101" src="shellcodeDebug-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/shellcodeDebug-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Öncelikle **LoadLibrary** API'si ile **ws2_32** kütüphanesi yükleniyor, soket işlemleri yapacağını anlıyoruz. Sonrasında ise **WSAStartup** API'si ile bir soket oluşturduğunu görüyoruz.
 
-<img title="PE 101" src="shellcodeDebug-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/shellcodeDebug-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Oluşturulan soketi **bind** API'si kullanarak aktif hale getiriyor. Parametrelere baktığımızda **4444** portunun dinlendiğini tespit ediyoruz. 
 
-<img title="PE 101" src="shellcodeDebug-4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="PE 101" src="../assets/shellcodeDebug-4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Sonuç olarak ilk adımdan itibaren deobfuscate ettiğimiz powershell scriptinin **bind shell** türünde bir zararlı yazılım olduğunu tespit ediyoruz.
 
