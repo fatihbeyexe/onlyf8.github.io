@@ -26,7 +26,7 @@ Yapılacak olan analizlerde kullanılmak üzere bir adet Windows ( 7/10 ) sanal 
 5.	Normal sistemleri taklit edebilme yeteneği.
 Bu sanal makinelerin kurulumlarının yanısıra belirli network ayarları yaparak, sanal makineleri tamamen izole edeceğiz. Bunun bize faydası şu olacaktır; host cihazımıza sıçrayabilecek bir saldırının önüne geçebileceğiz ve analiz makinemiz üzerindeki network hareketlerini izleyebileceğiz.
 
-<img title="architecture" width="500" height="500" src="../assets/architecture.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="architecture"  src="../assets/architecture.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 
 Kuracağımız mimari şekildeki gibi olacaktır. Windows cihazımızdan çıkan bütün trafik RemNux üzerinden geçecek ve aynı zamanda DNS server olarak da RemNux kullanılacaktır.
@@ -43,22 +43,22 @@ Yapacağımız network ayarlarının geçerli olması ve makinelerin host cihazd
 
     + Edit -> Virtual Network Editor
 
-   <img title="VMWare" width="300" height="200" src="../assets/vmware1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+   <img title="VMWare"  src="../assets/vmware1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
     + Change Settings
-   <img title="VMWare" width="300" height="300" src="../assets/vmware2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+   <img title="VMWare"  src="../assets/vmware2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
     + Add Network
-   <img title="VMWare" width="400" height="200" src="../assets/vmware3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+   <img title="VMWare"  src="../assets/vmware3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
     + Görseldeki şekilde ayarlayıp kaydediyoruz. Sanal adaptörü bu network’e bağlamıyoruz, bunun sebebi sanal network’ümüzün host cihazımız ile bağlantısı olmamalı, DHCP servisini çalıştırmıyoruz, makinelere kendimiz manuel olarak IP ve Gateway ataması yapacağız.
-   <img title="VMWare" width="400" height="300" src="../assets/vmware4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+   <img title="VMWare"  src="../assets/vmware4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 2. Makinelerin network ayarlarını yapma
    + Sanal makine ayarlarından subnet’e atama (iki makine için de yapıyoruz)
    <img title="VMWare" src="../assets/vmware5.png" style="display:block; margin-right:auto; margin-left:auto;">
 
-   <img title="Windows Statik" width="300" height="200" src="../assets/vmware6.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+   <img title="Windows Statik"  src="../assets/vmware6.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
    + RemNux bir Linux dağıtımıdır. Burada cihaz üzerinde network ayarları yaparak kalıcı bir IP ataması da yapabilirsiniz ya da aşağıdaki komut yardımı ile statik IP ataması da yapabilirsiniz. Eğer statik IP ataması yapacak iseniz her defasında bu ayarları yapmamak için yaptıktan sonra makinenin bir snapshot’ını almanızı tavsiye ederim. Hem elinizde makinenin temiz hali olacaktır (geri döndürülebilir) hem de ayarları tekrar tekrar yapmak zorunda kalmayacaksınız.
-   <img title="VMWare" width="400" height="300" src="../assets/remnux.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+   <img title="VMWare"  src="../assets/remnux.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
    + Windows cihazlarda statik IP atamasını; Ağ Bağlantıları -> Ethernet Arayüzü -> Ayarlar -> IPv4 kısmından yapacağız. Gateway ve DNS server olarak RemNux makinemizin IP’sini veriyoruz. Bunu yapmamızın sebebi ise RemNux üzerinde çalıştıracağımız toollar sayesinde hem network’ü dinleyebileceğiz hem de zararlı yazılımların kullandığı bazı kontrol mekanizmalarını atlatmayı sağlayacağız.
 
    <img title="Windows Statik" src="../assets/windows-statik1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
@@ -91,7 +91,7 @@ Zararlı yazılım türleri ise şunlardır;
 ---
 <h2 style="text-align:center"> Zararlı Yazılım Analizi Teknikleri </h2>
 
-<img title="Analiz Teknikleri" width="400" height="400" src="../assets/analiz-teknikleri.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Analiz Teknikleri"  src="../assets/analiz-teknikleri.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Yapılan analizlerde öncelikli hedefimiz en kısa yoldan gerekli bilgileri elde edebilmektir. Örneğin IOC (Indicator of Compromise) bilgisini almak için zararlı yazılım içerisindeki stringlerden direkt olarak IP veya Domain bilgisini almak, yazılımın çalıştırılıp içerisinde bağlantı kurulan kısmı bulmaktan çok daha kısa süren bir tekniktir. Yukarıdaki grafiğe bakıldığında, yukarı doğru gidildiğinde zorluk ve harcanan zaman artmaktadır. Bazen Sandbox kullanarak gereken tüm bilgilere erişebilecekken bazen tersine mühendislik yapıp zararlı yazılımın yapısını/işleyişini çözümleyip bu bilgilere erişmemiz gerekebilir. Burada analize başlamadan önce asıl amaç belirlenip, o noktaya odaklı bir şekilde analiz yapılması tavsiye edilir. Örneğin C&C sunucusunun IP/Domain bilgisinin ele geçirilmesi, şifreleme anahtarı/algoritmasının çözümlenmesi, cihaz içerisindeki dokunduğu noktalar gibi hedef belirlenmelidir. Yazılan bir zararlı yazılımın tüm kodlarını okuyup analiz etmek bazen günlerce/haftalarca sürebilir, bu yüzden amaç/hedef belirleyerek analiz yapmak bize zaman kazandıracaktır. 
 
@@ -101,13 +101,13 @@ Hiç bir zaman tek bir yol yoktur. Her zaman alternatif yollar oluşturabilmeli,
 
 <h2 style="text-align:center"> Analiz Teknikleri </h2>
 
-<img title="Analiz Teknikleri" width="400" height="400" src="../assets/analiz-teknikleri-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Analiz Teknikleri"  src="../assets/analiz-teknikleri-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 1. **Statik Davranış Analizi**: Burada asıl amaç, zararlı yazılım analizine başlamadan önce fikir edinmektir. Bu analiz biçimi, önceki bölümde bahsettiğimiz “amaç/hedef oluşturma” aşamasında önemli rol oynamaktadır. Programın çağırdığı DLL’ler, içerisinde bulunan stringler analiz edilerek yazılım hakkında bilgi edinilir. Örneğin ws32.dll dosyasını import eden bir yazılımın soket işlemleri yapacağını, buradan bir bilgi sızdırılması veya uzak sunucudan alınan komutların çalıştırılması durumu söz konusu olabilir. Bu bilgi ışığında amaç belirlenip bir sonraki aşamaya geçilebilir. Bu bize zaman kazandırmak açısından önemlidir.
 
 2. **Dinamik Davranış Analizi**: Analiz/izleme araçları çalıştırıldıktan sonra zararlı yazılım çalıştırılır. Buradaki ana amaç, tersine mühendislik yapıp zaman harcamadan zararlı yazılımın davranışlarını tespit etmektir. Örneğin Procmon aracı çalıştırılarak yaptığı dosya ve registry gibi işlemleri tespit edebiliriz veya Wireshark/TCPView üzerinden yapılan bağlantıları izleyerek C&C sunucusunun bilgisini elde edebiliriz.
 
-<img title="Analiz Teknikleri" width="400" height="400" src="../assets/analiz-teknikleri-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Analiz Teknikleri"  src="../assets/analiz-teknikleri-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 <img title="Caps" src="../assets/analiz-teknikleri-caps-2.png" style="display:block; margin-right:auto; margin-left:auto;">
 
@@ -205,8 +205,8 @@ Bir yazılımda ilk bakmamız gereken şey türüdür. Uzantısının “.exe”
 
 PEStudio aracıyla stringlere baktığımızda **“cmd.exe” “/c z save HKLM\SAM"** gibi stringler dikkatimizi çekiyor, daha dosyayı çalıştırmadan **“cmd.exe”** ile bir komut çalıştırabileceğini düşünüyoruz ve analizimize bunu aklımızda tutarak devam ediyoruz. Bir sonraki bakmamız gereken nokta yazılımın paketli olup olmadığı, bunun için DIE aracı yardımıyla dosyayı analiz ediyoruz ve ekran görüntüsünde görüldüğü üzere **“UPX”** isminde bir paketleme yazılımı ile paketlendiğini bize söylüyor. Entropi kısmına baktığımızda ise oldukça yüksek bir değere sahip olduğu ve paketli olduğunu bize söylüyor.
 
-<img title="Sample1" src="../assets/sample1-die1.png" width="400" height="250" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
-<img title="Sample1" src="../assets/sample1-caps.png" width="200" height="200" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Sample1" src="../assets/sample1-die1.png"  style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Sample1" src="../assets/sample1-caps.png"  style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 <img title="Sample1" src="../assets/sample1-die2.png" style="display:block; margin-right:auto; margin-left:auto;">
 Buradan sonra analizimize UPX çözümleme aracıyla dosyanın orjinal halini elde edip devam edebiliriz fakat paketlenmiş bir yazılımın nasıl gözüktüğünü göstermek amacıyla normal devam ediyoruz.
 <img title="Sample1" src="../assets/sample1-ida.png" style="display:block; margin-right:auto; margin-left:auto;">
