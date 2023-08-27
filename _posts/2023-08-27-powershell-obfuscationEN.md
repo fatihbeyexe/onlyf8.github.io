@@ -74,27 +74,27 @@ Above is a powershell script obfuscated with the Special Character technique. No
 
 First of all, this is not a single line in powershell because we can see that it is used to separate the **;** character line by line in between. After these characters, we skip the line and make the script available to run line by line.  
 
-<img title="PE 101" src="../assets/deobfuscation_step1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Deobfuscation Step 1" src="../assets/deobfuscation_step1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Now it's a bit more readable (:D). So what do these lines do? Let's run it line by line using Powershell ISE.
 
-<img title="PE 101" src="../assets/deobfuscation_step2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Deobfuscation Step 2" src="../assets/deobfuscation_step2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 When we run it step by step, we notice that; In line 1, the first variable created is assigned a value of "0", and then a different variable is assigned this value. When we come to the 3rd line, you can see that the value **++0** is assigned to the created variable. The variable defined as **0** in this line is incremented by **1** and assigned to the newly created variable. In this way, all digits between 0-9 are stored in a variable. So what are these numbers going to do? 
 
-<img title="PE 101" src="../assets/deobfuscation_step3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Deobfuscation Step 3" src="../assets/deobfuscation_step3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 After the number definitions are finished, we come to the 12th line. The variable in this line is assigned the string **"[Char]"** using various native powershell variables. So what will this **"[Char]** string do?
 
-<img title="PE 101" src="../assets/deobfuscation_step4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Deobfuscation Step 4" src="../assets/deobfuscation_step4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 In the next line, it is seen that the **insert** method is created by using index over the **System.Collections.Hashtable** variable, which is also one of the native variables (variables boxed in red in the image above). Only the letter **r** is obtained from the string **"$?"** i.e. **True**. 
 
-<img title="PE 101" src="../assets/deobfuscation_step5.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Deobfuscation Step 5" src="../assets/deobfuscation_step5.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Then, it is seen that the **"ie"** string is obtained by using index over the **System.Collections.Hashtable** string, and the **"iex"** method is obtained by taking the letter **"x"** over the variable created in the previous line. The last line shows that the obfuscated script will be run using **"iex"** followed by **"[Char]"**. To obtain it without running this command, we can do the following; Now that we know the **IEX** variable, then if we type **"echo"** instead of this variable, it will print the screen instead of executing the command. But there are two **iex**s in this script. The first is at the beginning of the 15th line, and the second is at the end. The leading **iex** is written to create the string, and the last one is written to execute the command. Instead of the variable carrying the **iex** string at the end, we can write **"echo"** and obtain the command.
 
-<img title="PE 101" src="../assets/deobfuscation_step6.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Deobfuscation Step 6" src="../assets/deobfuscation_step6.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 The other way to reverse a script with Special Character Obfuscation is to; For example, the variable **"${;#'}"** is assigned the number 0. With various text editor tools, you can change the value of this variable to 0 everywhere it occurs and the numeric values of the other variables in all rows, and make the digits that replace the **"[Char][x]"** x in the last line readable and get the whole string. 
 
@@ -105,11 +105,11 @@ The other way to reverse a script with Special Character Obfuscation is to; For 
 
 In Powershell, two or more strings ```$a="A"+"B"``` can be combined to assign them to a variable or given as parameters to a method. Another string sharding method is the list method. ```$a=("{0}{1}")-f'A','B``` ; Each string element after the **-f** key is indexed starting at 0, then substituted in the string according to the index numbers between the curly parentheses in the string before the **-f** key. The two powershell commands above also make the value of the variable **$a** into **AB**. So what happens if these two techniques are used together? 
 
-<img title="PE 101" src="../assets/formatList-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Format List" src="../assets/formatList-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 You get a sweet powershell script :) A lot of random variable names, string merging, string modification in list format, Base64, Gunzip etc. It's a mess. Where should we start? First of all, we make the variable names readable. Then we delete the ```'+'``` characters in the entire script.
 
-<img title="PE 101" src="../assets/formatList-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Format List" src="../assets/formatList-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Now some strings are slightly readable/predictable. Now let's focus on the second line; 
 
@@ -125,37 +125,37 @@ $value1_=[Ref].Assembly.GetType(('System.Management.Automation.AmsiUtils'));
 
 This is how the **-f** structure is resolved. Now let's make all the lines readable in the same way. 
 
-<img title="PE 101" src="../assets/formatList-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Format List" src="../assets/formatList-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 We have solved all the strings, now let's make sense of them. We notice that many of the concepts mentioned in the lines are written on disabling the security mechanisms found in powershell. These; AMSI (Anti-Malware Scan Interface), ScriptBlockLogging (security mechanism for logging the running powershell scripts), etc. The version control in the first line is thought to be put in place to check whether these security mechanisms exist. The AMSI mechanism is a feature added in PowerShell 4.0 and ScriptBlockLogging is a feature added in PowerShell 5.0. If these commands will run on powershell with version 3 and less, we will get an error when we try to operate on these mechanisms because there will not be these mechanisms already. It is because of this that the attackers are thought to have put such control in place.
 
 On the last line, the ampersand (&) sign and the following command are executed. So what is this command? After merging with the **+** character, we come across a string that is decompressed with a Base64Decode and then Gunzip with the Format List. In other words, the command that is wanted to be executed; Compressed with Gunzip, encoded with Base64, made compatible with Format List, fragmented with **+** character and finalized. If we do this order in reverse, we can reach the original string.
 
-<img title="PE 101" src="../assets/cyberChef-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="CyberChef Decoding" src="../assets/cyberChef-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 We go to the next step by doing the original string on CyberChef first **FromBase64** and then **Gunzip Decompress**. We encounter a powershell script again. When we look at this powershell script, we can understand that it runs a shellcode using .NET methods. It is understood that a place is allocated with **VirtualAlloc** in the memory block, then this newly created part is encoded with Base64, then the decoded shellcode is moved with **Copy** and then it is run with **CreateThread**.
 
-<img title="PE 101" src="../assets/secondStage-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Second Stage" src="../assets/secondStage-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 In the next stage, we will get the shellcode and see what I can get. First of all, we decode the Base64 value here using CyberChef and download it using the **Download** feature.
 
-<img title="PE 101" src="../assets/cyberChef-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="CyberChef Decoding" src="../assets/cyberChef-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 We will debug this shellcode using **BlobRunner**. There are two methods here; We can run BlobRunner from the command line with the **BlobRunner.exe [ShellCode File]** line and then attach to this process through the debugger (BlobRunner stops itself before running ShellCode and waits for you to press a key) and continue the program by toggle breakpoint the address where BlobRunner loads ShellCode, or we can run BlobRunner directly from the debugger and change the command line and do the same operations. 
 
-<img title="PE 101" src="../assets/shellcodeDebug-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Debugging Shellcode" src="../assets/shellCodeDebug-1.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 When we run it, we see APIs that resolve dynamically. Here we detect that the APIs resolved in the **jmp rax** line are called, and we toggle breakpoint this line and track the APIs called through the **RAX** register. 
 
-<img title="PE 101" src="../assets/shellcodeDebug-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Debugging Shellcode" src="../assets/shellCodeDebug-2.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 First of all, loading the **ws2_32** library with the **LoadLibrary** API, we understand that it will perform socket operations. Then we see that it creates a socket with the **WSAStartup** API.
 
-<img title="PE 101" src="../assets/shellcodeDebug-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Debugging Shellcode" src="../assets/shellCodeDebug-3.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 It activates the created socket using the **bind** API. When we look at the parameters, we find that the **4444** port is listening. 
 
-<img title="PE 101" src="../assets/shellcodeDebug-4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Debugging Shellcode" src="../assets/shellCodeDebug-4.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 As a result, we determine that the powershell script we deobfuscate from the first step is a **bind shell** type of malware.
 
