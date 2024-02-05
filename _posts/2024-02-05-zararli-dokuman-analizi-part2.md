@@ -17,7 +17,7 @@ Bu sample'ı **MalwareBazaar**'dan buldum, bu site üzerinden zararlı yazılım
 
 Excel'i açtığımızda genellikle bazı rastgele değerler ve butonlar görürüz. Ayrıca **"Makroları Etkinleştir"** uyarısını görebiliriz.
 
-<img title="İlk Dosya" src="../assets/initial_File.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="İlk Dosya" src="../assets/Initial_File.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Aslında şüpheli bir doküman dosyasını analiz ettiğimizde belgeyi açmamıza gerek yok; **OfficeMalScanner** aracını kullanabiliriz ya da sağ tıklayarak belgeyi ayıklayabiliriz. Dosyayı ayıkladığımızda zaten içerisinde bir makro içeren dosya varsa bunu alt dizinlerde görebiliriz ve tabii ki sonrasında tekrar **OfficeMalScanner** veya çeşitli araçlar kullanarak bu makroları okunabilir hale getirmemiz gerekmekte. Bu şüpheli dosyanın içerdiği şeyleri görmek için **OfficeMalScanner**'ı kullanalım.
 

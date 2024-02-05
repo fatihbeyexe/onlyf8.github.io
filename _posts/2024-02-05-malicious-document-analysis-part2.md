@@ -17,7 +17,7 @@ I found this sample from MalwareBazaar, you can download samples from this site.
 
 When we open excel, typically there are some random values and buttons. Also we can see "Enable macro" warning.
 
-<img title="Initial File" src="../assets/initial_File.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
+<img title="Initial File" src="../assets/Initial_File.png" style="display:block; margin-right:auto; margin-left:auto; padding-bottom:20px;">
 
 Actually when we analyze a suspicious document file, we don't need to open document, we can use **OfficeMalScanner** tool or right click and extract the document. Let's use OfficeMalScanner to see what this suspicious file contains. 
 
